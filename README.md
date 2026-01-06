@@ -1,13 +1,13 @@
-# 📄 Paperless-AI
+# 📄 GIMU-DocusAI
 
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/t/clusterzx/paperless-ai)](https://github.com/clusterzx/paperless-ai/commits/main)
-[![Docker Pulls](https://img.shields.io/docker/pulls/clusterzx/paperless-ai)](https://hub.docker.com/r/clusterzx/paperless-ai)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/t/clusterzx/gimu-docusai)](https://github.com/clusterzx/gimu-docusai/commits/main)
+[![Docker Pulls](https://img.shields.io/docker/pulls/clusterzx/gimu-docusai)](https://hub.docker.com/r/clusterzx/gimu-docusai)
 [![GitHub Stars](https://img.shields.io/github/stars/clusterzx)](https://github.com/clusterzx)
-[![License](https://img.shields.io/github/license/clusterzx/paperless-ai?cacheSeconds=1)](LICENSE)
+[![License](https://img.shields.io/github/license/clusterzx/gimu-docusai?cacheSeconds=1)](LICENSE)
 
 ---
 
-**Paperless-AI** is an AI-powered extension for [Paperless-ngx](https://github.com/paperless-ngx/paperless-ngx) that brings automatic document classification, smart tagging, and semantic search using OpenAI-compatible APIs and Ollama.
+**GIMU-DocusAI** is an AI-powered extension for [Paperless-ngx](https://github.com/paperless-ngx/paperless-ngx) that brings automatic document classification, smart tagging, and semantic search using OpenAI-compatible APIs and Ollama.
 
 It enables **fully automated document workflows**, **contextual chat**, and **powerful customization** — all via an intuitive web interface.
 
@@ -44,7 +44,7 @@ Powered by **Retrieval-Augmented Generation (RAG)**, you can now search semantic
 - Understands full document context (not just keywords)
 - Semantic memory powered by your own data
 - Fast, intelligent, privacy-friendly document queries  
-![RAG_CHAT_DEMO](https://raw.githubusercontent.com/clusterzx/paperless-ai/refs/heads/main/ppairag.png)
+![RAG_CHAT_DEMO](https://raw.githubusercontent.com/clusterzx/gimu-docusai/refs/heads/main/ppairag.png)
 
 ### ⚙️ Manual Processing
 - Web interface for manual AI tagging
@@ -64,7 +64,7 @@ Powered by **Retrieval-Augmented Generation (RAG)**, you can now search semantic
 > ⚠️ **First-time install:** Restart the container **after completing setup** (API keys, preferences) to build RAG index.  
 > 🔁 Not required for updates.
 
-📘 [Installation Wiki](https://github.com/clusterzx/paperless-ai/wiki/2.-Installation)
+📘 [Installation Wiki](https://github.com/clusterzx/gimu-docusai/wiki/2.-Installation)
 
 ---
 
@@ -116,7 +116,7 @@ Then open a Pull Request via GitHub.
 
 ## 🆘 Support & Community
 
-- [Issues](https://github.com/clusterzx/paperless-ai/issues)
+- [Issues](https://github.com/clusterzx/gimu-docusai/issues)
 - [Discord](https://discord.gg/AvNekAfK38)
 
 ---

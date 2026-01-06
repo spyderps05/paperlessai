@@ -41,12 +41,12 @@ RUN chmod +x start-services.sh
 # Configure persistent data volume
 VOLUME ["/app/data"]
 
-# Configure application port - aber der tatsächliche Port wird durch PAPERLESS_AI_PORT bestimmt
-EXPOSE ${PAPERLESS_AI_PORT:-3000}
+# Configure application port - aber der tatsächliche Port wird durch GIMU_DOCUSAI_PORT bestimmt
+EXPOSE ${GIMU_DOCUSAI_PORT:-3000}
 
 # Add health check with dynamic port
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:${PAPERLESS_AI_PORT:-3000}/health || exit 1
+    CMD curl -f http://localhost:${GIMU_DOCUSAI_PORT:-3000}/health || exit 1
 
 # Set production environment
 ENV NODE_ENV=production

@@ -3,9 +3,9 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
-    title: 'Paperless-AI API Documentation',
+    title: 'GIMU-DocusAI API Documentation',
     version: '1.0.0',
-    description: 'API documentation for the Paperless-AI application',
+    description: 'API documentation for the GIMU-DocusAI application',
     license: {
       name: 'MIT',
       url: 'https://opensource.org/licenses/MIT',

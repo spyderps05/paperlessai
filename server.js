@@ -41,7 +41,7 @@ const corsOptions = {
   origin: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: [
-    'Content-Type', 
+    'Content-Type',
     'x-api-key',
     'Access-Control-Allow-Private-Network'
   ],
@@ -55,7 +55,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, x-api-key, Access-Control-Allow-Private-Network');
   res.header('Access-Control-Allow-Private-Network', 'true');
-  
+
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -80,7 +80,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
  *   get:
  *     summary: Retrieve the OpenAPI specification
  *     description: |
- *       Returns the complete OpenAPI specification for the Paperless-AI API.
+ *       Returns the complete OpenAPI specification for the GIMU-DocusAI API.
  *       This endpoint attempts to serve a static OpenAPI JSON file first, falling back
  *       to dynamically generating the specification if the file cannot be read.
  *       
@@ -111,7 +111,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 app.get('/api-docs/openapi.json', (req, res) => {
   const openApiPath = path.join(process.cwd(), 'OPENAPI', 'openapi.json');
   res.setHeader('Content-Type', 'application/json');
-  
+
   // Try to serve the static file first
   fs.readFile(openApiPath)
     .then(data => {
@@ -169,7 +169,7 @@ async function saveOpenApiSpec() {
       console.log('Creating OPENAPI directory...');
       await fs.mkdir(openApiDir, { recursive: true });
     }
-    
+
     // Write the specification to file
     await fs.writeFile(openApiPath, JSON.stringify(swaggerSpec, null, 2));
     console.log(`OpenAPI specification saved to ${openApiPath}`);
@@ -190,9 +190,9 @@ async function processDocument(doc, existingTags, existingCorrespondentList, exi
   const documentEditable = await paperlessService.getPermissionOfDocument(doc.id);
   if (!documentEditable) {
     console.log(`[DEBUG] Document belongs to: ${documentEditable}, skipping analysis`);
-    console.log(`[DEBUG] Document ${doc.id} Not Editable by Paper-Ai User, skipping analysis`);
+    console.log(`[DEBUG] Document ${doc.id} Not Editable by GIMU-DocusAI User, skipping analysis`);
     return null;
-  }else {
+  } else {
     console.log(`[DEBUG] Document ${doc.id} rights for AI User - processed`);
   }
 
@@ -264,7 +264,7 @@ async function buildUpdateData(analysis, doc) {
       console.error(`[ERROR] Error processing document type:`, error);
     }
   }
-  
+
   // Only process custom fields if custom fields detection is activated
   if (config.limitFunctions?.activateCustomFields !== 'no' && analysis.document.custom_fields) {
     const customFields = analysis.document.custom_fields;
@@ -280,7 +280,7 @@ async function buildUpdateData(analysis, doc) {
     // First, add any new/updated fields
     for (const key in customFields) {
       const customField = customFields[key];
-      
+
       if (!customField.field_name || !customField.value?.trim()) {
         console.log(`[DEBUG] Skipping empty/invalid custom field`);
         continue;
@@ -330,13 +330,13 @@ async function buildUpdateData(analysis, doc) {
 
 async function saveDocumentChanges(docId, updateData, analysis, originalData) {
   const { tags: originalTags, correspondent: originalCorrespondent, title: originalTitle } = originalData;
-  
+
   await Promise.all([
     documentModel.saveOriginalData(docId, originalTags, originalCorrespondent, originalTitle),
     paperlessService.updateDocument(docId, updateData),
     documentModel.addProcessedDocument(docId, updateData.title),
     documentModel.addOpenAIMetrics(
-      docId, 
+      docId,
       analysis.metrics.promptTokens,
       analysis.metrics.completionTokens,
       analysis.metrics.totalTokens
@@ -364,7 +364,7 @@ async function scanInitial() {
     //get existing correspondent list
     existingCorrespondentList = existingCorrespondentList.map(correspondent => correspondent.name);
     let existingDocumentTypesList = existingDocumentTypes.map(docType => docType.name);
-    
+
     // Extract tag names from tag objects
     const existingTagNames = existingTags.map(tag => tag.name);
 
@@ -403,10 +403,10 @@ async function scanDocuments() {
 
     //get existing correspondent list
     existingCorrespondentList = existingCorrespondentList.map(correspondent => correspondent.name);
-    
+
     //get existing document types list
     let existingDocumentTypesList = existingDocumentTypes.map(docType => docType.name);
-    
+
     // Extract tag names from tag objects
     const existingTagNames = existingTags.map(tag => tag.name);
 
@@ -438,11 +438,11 @@ const ragRoutes = require('./routes/rag');
 // Mount RAG routes if enabled
 if (process.env.RAG_SERVICE_ENABLED === 'true') {
   app.use('/api/rag', ragRoutes);
-  
+
   // RAG UI route
   app.get('/rag', async (req, res) => {
     try {
-      res.render('rag', { 
+      res.render('rag', {
         title: 'Dokumenten-Fragen'
       });
     } catch (error) {
@@ -531,7 +531,7 @@ app.get('/health', async (req, res) => {
   try {
     const isConfigured = await setupService.isConfigured();
     if (!isConfigured) {
-      return res.status(503).json({ 
+      return res.status(503).json({
         status: 'not_configured',
         message: 'Application setup not completed'
       });
@@ -541,9 +541,9 @@ app.get('/health', async (req, res) => {
     res.json({ status: 'healthy' });
   } catch (error) {
     console.error('Health check failed:', error);
-    res.status(503).json({ 
-      status: 'error', 
-      message: error.message 
+    res.status(503).json({
+      status: 'error',
+      message: error.message
     });
   }
 });
@@ -559,7 +559,7 @@ async function startScanning() {
   try {
     const isConfigured = await setupService.isConfigured();
     if (!isConfigured) {
-      console.log(`Setup not completed. Visit http://your-machine-ip:${process.env.PAPERLESS_AI_PORT || 3000}/setup to complete setup.`);
+      console.log(`Setup not completed. Visit http://your-machine-ip:${process.env.GIMU_DOCUSAI_PORT || 3000}/setup to complete setup.`);
     }
 
     const userId = await paperlessService.getOwnUserID();
@@ -570,9 +570,9 @@ async function startScanning() {
 
     console.log('Configured scan interval:', config.scanInterval);
     console.log(`Starting initial scan at ${new Date().toISOString()}`);
-    if(config.disableAutomaticProcessing != 'yes') {
+    if (config.disableAutomaticProcessing != 'yes') {
       await scanInitial();
-  
+
       cron.schedule(config.scanInterval, async () => {
         console.log(`Starting scheduled scan at ${new Date().toISOString()}`);
         await scanDocuments();
@@ -626,7 +626,7 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
 // Start server
 async function startServer() {
-  const port = process.env.PAPERLESS_AI_PORT || 3000;
+  const port = process.env.GIMU_DOCUSAI_PORT || 3000;
   try {
     await initializeDataDirectory();
     await saveOpenApiSpec(); // Save OpenAPI specification on startup
