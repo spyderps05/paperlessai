@@ -1,5 +1,6 @@
 services:
   gimu-docusai:
+    build: .
     image: clusterzx/gimu-docusai
     container_name: gimu-docusai
     network_mode: bridge
@@ -14,6 +15,8 @@ services:
       - GIMU_DOCUSAI_PORT=${GIMU_DOCUSAI_PORT:-3000}
       - RAG_SERVICE_URL=http://localhost:8000
       - RAG_SERVICE_ENABLED=true
+      - OLLAMA_API_URL=http://192.168.1.100:11434
+      - OLLAMA_MODEL=llama3.2:3b
     ports:
       - "3000:${GIMU_DOCUSAI_PORT:-3000}"
     volumes:
