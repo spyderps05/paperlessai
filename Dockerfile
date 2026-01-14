@@ -13,7 +13,8 @@ RUN apt-get update && \
     make \
     g++ \
     curl \
-    wget && \
+    wget \
+    dos2unix && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -36,7 +37,7 @@ RUN npm ci --only=production && npm cache clean --force
 COPY . .
 
 # Make startup script executable and fix line endings
-RUN sed -i 's/\r$//' start-services.sh && chmod +x start-services.sh
+RUN dos2unix start-services.sh && chmod +x start-services.sh
 
 # Configure persistent data volume
 VOLUME ["/app/data"]
@@ -52,4 +53,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
 ENV NODE_ENV=production
 
 # Start both Node.js and Python services using our script
-CMD ["./start-services.sh"]
+CMD ["/app/start-services.sh"]
